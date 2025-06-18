@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kerim Hoca - Yönetici Paneli</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Tailwind's gray-50 */
+            color: #334155; /* Tailwind's slate-700 */
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #cbd5e1; /* Tailwind's slate-300 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569; /* Tailwind's slate-600 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1e293b; /* Tailwind's slate-800 */
+        }
+
+        /* Hamburger menu icon styles for sidebar toggle */
+        .hamburger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .hamburger-icon span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #f8fafc; /* Tailwind's gray-50 */
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger-icon.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger-icon.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger-icon.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Custom style for active sidebar link */
+        .sidebar-link.active {
+            background-color: #1e40af; /* Tailwind's blue-800 */
+            color: #fff;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen overflow-x-hidden">
+
+    <!-- Top Header Bar -->
+    <header class="bg-blue-700 text-white p-4 md:px-6 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <!-- Hamburger for mobile sidebar toggle -->
+                <button id="sidebar-toggle" class="md:hidden hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <h1 class="text-xl md:text-2xl font-bold">Kerim Hoca <span class="hidden sm:inline">- Yönetici Paneli</span></h1>
+            </div>
+            <button class="bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-md">
+                Çıkış Yap
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 bg-slate-800 text-white w-64 p-6 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-40 md:relative md:flex md:flex-col rounded-r-xl shadow-lg">
+            <nav class="flex-1 mt-8">
+                <ul class="space-y-4">
+                    <li>
+                        <a href="#dashboard" class="sidebar-link active block px-4 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 transition duration-300 flex items-center space-x-3">
+                            <!-- Dashboard Icon (Lucide-react inspired SVG) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                                <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+                                <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+                                <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+                                <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+                            </svg>
+                            <span>Kontrol Paneli</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#courses-management" class="sidebar-link block px-4 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 transition duration-300 flex items-center space-x-3">
+                            <!-- Courses Icon (Lucide-react inspired SVG) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                            </svg>
+                            <span>Kurs Yönetimi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#users-management" class="sidebar-link block px-4 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 transition duration-300 flex items-center space-x-3">
+                            <!-- Users Icon (Lucide-react inspired SVG) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span>Kullanıcı Yönetimi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#settings" class="sidebar-link block px-4 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 transition duration-300 flex items-center space-x-3">
+                            <!-- Settings Icon (Lucide-react inspired SVG) -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.78 1.22a2 2 0 0 0 .73 2.73l.09.09a2 2 0 0 1 .73 2.73l-.78 1.22a2 2 0 0 0 .73 2.73l.15.08a2 2 0 0 1 2 0l.43-.25a2 2 0 0 1 1-1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.78-1.22a2 2 0 0 0-.73-2.73l-.09-.09a2 2 0 0 1-.73-2.73l.78-1.22a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-2 0l-.43.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <span>Ayarlar</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="flex-1 p-6 md:p-8 ml-0 md:ml-64 transition-all duration-300 ease-in-out">
+            <div id="dashboard" class="content-section rounded-xl shadow-lg bg-white p-8 mb-8 border border-gray-200">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6">Kontrol Paneli</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-blue-100 rounded-lg p-5 shadow-sm">
+                        <p class="text-lg font-medium text-blue-800">Toplam Kurs</p>
+                        <p class="text-4xl font-bold text-blue-900 mt-2">12</p>
+                    </div>
+                    <div class="bg-green-100 rounded-lg p-5 shadow-sm">
+                        <p class="text-lg font-medium text-green-800">Kayıtlı Öğrenci</p>
+                        <p class="text-4xl font-bold text-green-900 mt-2">540</p>
+                    </div>
+                    <div class="bg-yellow-100 rounded-lg p-5 shadow-sm">
+                        <p class="text-lg font-medium text-yellow-800">Yeni Mesajlar</p>
+                        <p class="text-4xl font-bold text-yellow-900 mt-2">7</p>
+                    </div>
+                </div>
+
+                <div class="mt-10">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4">Son Etkinlikler</h3>
+                    <ul class="space-y-3">
+                        <li class="bg-gray-50 p-4 rounded-lg flex items-center justify-between shadow-sm">
+                            <span class="text-slate-700">Yeni Kurs Eklendi: <span class="font-semibold">"İleri Seviye Python"</span></span>
+                            <span class="text-sm text-gray-500">2 saat önce</span>
+                        </li>
+                        <li class="bg-gray-50 p-4 rounded-lg flex items-center justify-between shadow-sm">
+                            <span class="text-slate-700">Kullanıcı Kaydı: <span class="font-semibold">Elif Kaya</span></span>
+                            <span class="text-sm text-gray-500">1 gün önce</span>
+                        </li>
+                        <li class="bg-gray-50 p-4 rounded-lg flex items-center justify-between shadow-sm">
+                            <span class="text-slate-700">Kurs Güncellendi: <span class="font-semibold">"Modern Web Geliştirme"</span></span>
+                            <span class="text-sm text-gray-500">3 gün önce</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="courses-management" class="content-section hidden rounded-xl shadow-lg bg-white p-8 mb-8 border border-gray-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-slate-800">Kurs Yönetimi</h2>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
+                        Yeni Kurs Ekle
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-blue-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+                                    Kurs Adı
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+                                    Seviye
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+                                    Saat
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-blue-700 uppercase tracking-wider">
+                                    İşlemler
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <!-- Course 1 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800">
+                                    Modern Web Geliştirme
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    Başlangıç
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    40
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                    <button class="text-indigo-600 hover:text-indigo-900 mr-4">Düzenle</button>
+                                    <button class="text-red-600 hover:text-red-900">Sil</button>
+                                </td>
+                            </tr>
+                            <!-- Course 2 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800">
+                                    Uygulamalı Veri Bilimi
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    Orta Seviye
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    60
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                    <button class="text-indigo-600 hover:text-indigo-900 mr-4">Düzenle</button>
+                                    <button class="text-red-600 hover:text-red-900">Sil</button>
+                                </td>
+                            </tr>
+                            <!-- Course 3 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800">
+                                    iOS ve Android Mobil Uygulama
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    İleri Seviye
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    55
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                    <button class="text-indigo-600 hover:text-indigo-900 mr-4">Düzenle</button>
+                                    <button class="text-red-600 hover:text-red-900">Sil</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="users-management" class="content-section hidden rounded-xl shadow-lg bg-white p-8 mb-8 border border-gray-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-slate-800">Kullanıcı Yönetimi</h2>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
+                        Yeni Kullanıcı Ekle
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-blue-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+                                    Ad Soyad
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+                                    E-posta
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+                                    Rol
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-blue-700 uppercase tracking-wider">
+                                    İşlemler
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <!-- User 1 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800">
+                                    Ayşe Yılmaz
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    ayse.yilmaz@example.com
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    Öğrenci
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                    <button class="text-indigo-600 hover:text-indigo-900 mr-4">Düzenle</button>
+                                    <button class="text-red-600 hover:text-red-900">Sil</button>
+                                </td>
+                            </tr>
+                            <!-- User 2 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800">
+                                    Mehmet Can
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    mehmet.can@example.com
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    Öğrenci
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                    <button class="text-indigo-600 hover:text-indigo-900 mr-4">Düzenle</button>
+                                    <button class="text-red-600 hover:text-red-900">Sil</button>
+                                </td>
+                            </tr>
+                            <!-- User 3 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-800">
+                                    Zeynep Demir
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    zeynep.demir@example.com
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+                                    Öğrenci
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                    <button class="text-indigo-600 hover:text-indigo-900 mr-4">Düzenle</button>
+                                    <button class="text-red-600 hover:text-red-900">Sil</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="settings" class="content-section hidden rounded-xl shadow-lg bg-white p-8 mb-8 border border-gray-200">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6">Ayarlar</h2>
+                <form>
+                    <div class="mb-6">
+                        <label for="site-name" class="block text-slate-700 text-lg font-medium mb-2">Site Adı</label>
+                        <input type="text" id="site-name" name="site-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200" value="Kerim Hoca" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="admin-email" class="block text-slate-700 text-lg font-medium mb-2">Yönetici E-posta</label>
+                        <input type="email" id="admin-email" name="admin-email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200" value="admin@kerimhoca.com" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="pagination-limit" class="block text-slate-700 text-lg font-medium mb-2">Sayfalama Limiti</label>
+                        <input type="number" id="pagination-limit" name="pagination-limit" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200" value="10" min="5" max="50" required>
+                    </div>
+                    <button type="submit" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md">
+                        Ayarları Kaydet
+                    </button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript for Sidebar Toggle and Content Section Switching -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('main');
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            // Function to close sidebar on mobile
+            const closeSidebar = () => {
+                sidebar.classList.add('-translate-x-full');
+                sidebarToggle.classList.remove('open');
+                mainContent.classList.remove('md:ml-64'); // Reset margin on small screens
+                mainContent.classList.add('md:ml-64'); // Reapply margin for desktop
+            };
+
+            // Toggle sidebar visibility
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+                sidebarToggle.classList.toggle('open');
+            });
+
+            // Handle sidebar link clicks
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    // Remove active class from all links
+                    sidebarLinks.forEach(item => item.classList.remove('active'));
+                    // Add active class to the clicked link
+                    link.classList.add('active');
+
+                    // Hide all content sections
+                    contentSections.forEach(section => section.classList.add('hidden'));
+
+                    // Show the target section
+                    const targetId = link.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.remove('hidden');
+
+                    // Close sidebar on mobile after clicking a link
+                    if (window.innerWidth < 768) { // md breakpoint in Tailwind is 768px
+                        closeSidebar();
+                    }
+                });
+            });
+
+            // Close sidebar if clicking outside of it on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth < 768 && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && !sidebar.classList.contains('-translate-x-full')) {
+                    closeSidebar();
+                }
+            });
+
+            // Adjust sidebar and content margin on window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) { // md breakpoint
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebarToggle.classList.remove('open');
+                    mainContent.classList.add('md:ml-64');
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    sidebarToggle.classList.remove('open');
+                    mainContent.classList.remove('md:ml-64');
+                }
+            });
+
+            // Initial setup for responsiveness
+            if (window.innerWidth < 768) {
+                sidebar.classList.add('-translate-x-full');
+                mainContent.classList.remove('md:ml-64'); // Remove desktop margin initially for mobile
+            } else {
+                sidebar.classList.remove('-translate-x-full');
+                mainContent.classList.add('md:ml-64');
+            }
+        });
+    </script>
+</body>
+</html>
